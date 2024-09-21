@@ -75,7 +75,7 @@ func GetMember(c *gin.Context) {
 // GET /members
 func ListMembers(c *gin.Context) {
 
-	var members []entity.Admin
+	var members []entity.Member
 
 	db := config.DB()
 	results := db.Preload("Gender").Find(&members)

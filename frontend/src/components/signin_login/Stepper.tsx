@@ -1,20 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { CreateMember, GetGenders } from "../../services/https/member";
+import { MembersInterface } from "../../interfaces/IMember"; // Import MembersInterface
+import { GendersInterface } from "../../interfaces/IGender";
+import { useNavigate } from "react-router-dom";
 
 const Stepper: React.FC = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
-        step1: "",
-        step2: "",
-        step3: "",
+        FirstName: "",
+        LastName: "",
+        GenderID: "",
+        PhoneNumber: "",
+        Email: "",
+        Username: "",
+        Password: "",
     });
 
     const steps = ["Personal Info", "Contact", "Account Info"];
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [genders, setGenders] = useState<GendersInterface[]>([]); // State for gender data
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Fetch gender data when the component mounts
+        const fetchGenders = async () => {
+            const genderData = await GetGenders(); // Call the API to get genders
+            if (genderData) {
+                setGenders(genderData); // Store gender data in state
+            } else {
+                toast.error("Failed to fetch genders.");
+            }
+        };
+
+        fetchGenders();
+    }, []);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [`step${currentStep}`]: e.target.value,
+            [name]: value,
         });
+    };
+
+    const handleSubmit = async () => {
+        if (!formData.FirstName || !formData.LastName || !formData.Email || !formData.Password) {
+            toast.error("Please fill all required fields");
+            return;
+        }
+
+        const memberData: MembersInterface = {
+            ...formData,
+            GenderID: parseInt(formData.GenderID), // Convert string to number
+        };
+
+        const response = await CreateMember(memberData);
+
+        if (response) {
+            toast.success("Member created successfully!");
+            navigate("/package");
+        } else {
+            toast.error("Failed to create member.");
+        }
     };
 
     const renderStepContent = () => {
@@ -25,41 +73,50 @@ const Stepper: React.FC = () => {
                         <div className="mt-2">
                             <div className="text-xs text-left mb-2 xl:text-lg text-white">Firstname</div>
                             <input
-                                id="Firstname"
-                                name="Firstname"
-                                type="Firstname"
+                                id="FirstName"
+                                name="FirstName"
+                                type="text"
                                 required
-                                autoComplete="Firstname"
-                                className="block w-full rounded-full  text-center  bg-gray5 py-3 text-white shadow-sm  "
+                                autoComplete="FirstName"
+                                className="block w-full rounded-full text-center bg-gray5 py-3 text-white shadow-sm"
                                 placeholder="Enter firstname"
+                                value={formData.FirstName}
+                                onChange={handleInputChange}
                             />
                             <div className="mt-2">
                                 <div className="text-xs text-left mb-2 xl:text-lg text-white">Lastname</div>
                                 <input
-                                    id="Lastname"
-                                    name="Lastname"
-                                    type="Lastname"
+                                    id="LastName"
+                                    name="LastName"
+                                    type="text"
                                     required
-                                    autoComplete="Lastname"
-                                    className="block w-full rounded-full  text-center  bg-gray5 py-3 text-white shadow-sm  "
+                                    autoComplete="LastName"
+                                    className="block w-full rounded-full text-center bg-gray5 py-3 text-white shadow-sm"
                                     placeholder="Enter lastname"
+                                    value={formData.LastName}
+                                    onChange={handleInputChange}
                                 />
                             </div>
 
                             <div>
-                                <form className="max-w-sm mx-auto mt-8 ">
-                                    <label htmlFor="underline_select" className="sr-only">
-                                        Underline select
-                                    </label>
-                                    <select
-                                        id="underline_select"
-                                        className="block w-full rounded-full  text-center  bg-gray5 py-3 text-white"
-                                    >
-                                        <option selected>Choose a gender</option>
-                                        <option value="US">Female</option>
-                                        <option value="CA">Male</option>
-                                    </select>
-                                </form>
+                                <label htmlFor="GenderID" className=" block text-xs text-left mb-2 xl:text-lg text-white">
+                                    Gender
+                                </label>
+                                <select
+                                    id="GenderID"
+                                    name="GenderID"
+                                    required
+                                    className="block w-full rounded-full text-center bg-gray5 py-3 text-white"
+                                    value={formData.GenderID}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Choose a gender</option>
+                                    {genders.map((gender) => (
+                                        <option key={gender.ID} value={gender.ID}>
+                                            {gender.Name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -72,11 +129,13 @@ const Stepper: React.FC = () => {
                             <input
                                 id="PhoneNumber"
                                 name="PhoneNumber"
-                                type="PhoneNumber"
+                                type="text"
                                 required
                                 autoComplete="PhoneNumber"
-                                className="block w-full rounded-full  text-center  bg-gray5 py-3 text-white shadow-sm  "
+                                className="block w-full rounded-full text-center bg-gray5 py-3 text-white shadow-sm"
                                 placeholder="Enter Phone Number"
+                                value={formData.PhoneNumber}
+                                onChange={handleInputChange}
                             />
                         </div>
                         <div className="mt-2">
@@ -84,11 +143,13 @@ const Stepper: React.FC = () => {
                             <input
                                 id="Email"
                                 name="Email"
-                                type="Email"
+                                type="email"
                                 required
                                 autoComplete="Email"
-                                className="block w-full rounded-full  text-center  bg-gray5 py-3 text-white shadow-sm  "
+                                className="block w-full rounded-full text-center bg-gray5 py-3 text-white shadow-sm"
                                 placeholder="Enter email"
+                                value={formData.Email}
+                                onChange={handleInputChange}
                             />
                         </div>
                     </div>
@@ -101,23 +162,27 @@ const Stepper: React.FC = () => {
                             <input
                                 id="Username"
                                 name="Username"
-                                type="Username"
+                                type="text"
                                 required
                                 autoComplete="Username"
-                                className="block w-full rounded-full  text-center bg-gray5 py-3 text-white shadow-sm  "
+                                className="block w-full rounded-full text-center bg-gray5 py-3 text-white shadow-sm"
                                 placeholder="Enter username"
+                                value={formData.Username}
+                                onChange={handleInputChange}
                             />
                         </div>
                         <div className="mt-2">
-                            <div className="text-xs text-left mb-2 xl:text-lg text-white ">Password</div>
+                            <div className="text-xs text-left mb-2 xl:text-lg text-white">Password</div>
                             <input
-                                id="password"
-                                name="password"
+                                id="Password"
+                                name="Password"
                                 type="password"
                                 required
-                                autoComplete="password"
-                                className="block w-full rounded-full  text-center  bg-gray5 py-3 text-white shadow-sm  "
+                                autoComplete="Password"
+                                className="block w-full rounded-full text-center bg-gray5 py-3 text-white shadow-sm"
                                 placeholder="Enter password"
+                                value={formData.Password}
+                                onChange={handleInputChange}
                             />
                         </div>
                     </div>
@@ -129,6 +194,7 @@ const Stepper: React.FC = () => {
 
     return (
         <div className="w-full max-w-md mx-auto ">
+            <Toaster />
             <div className="flex justify-between mb-10">
                 {steps.map((step, index) => (
                     <div key={index} className={`relative flex-1 text-center ${index + 1 <= currentStep ? "text-hover" : "text-white"}`}>
@@ -149,19 +215,25 @@ const Stepper: React.FC = () => {
                 ))}
             </div>
             <div className="mb-[5px]">{renderStepContent()}</div>
-            <div className="flex justify-between mt-10">
+            <div className="flex justify-between mt-10 ">
                 <button
                     onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
                     className="px-4 py-2 bg-gray-300 text-gray-700 rounded"
                 >
                     Previous
                 </button>
-                <button
-                    onClick={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length))}
-                    className="px-4 py-2 bg-green5 text-white rounded"
-                >
-                    Next
-                </button>
+                {currentStep === steps.length ? (
+                    <button onClick={handleSubmit} className="px-4 py-2 bg-green5 text-white rounded">
+                        Submit
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length))}
+                        className="px-4 py-2 bg-green5 text-white rounded"
+                    >
+                        Next
+                    </button>
+                )}
             </div>
         </div>
     );

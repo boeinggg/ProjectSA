@@ -1,7 +1,7 @@
 import "../../../App.css";
 import React from "react";
 import bgPic from "../../../assets/bg.jpg";
-import Navbar from "../../../components/Home/Navbar";
+import Navbar from "../../../components/home/Navbar";
 import LoginForm from "../../../components/signin_login/LoginForm";
 import SlideText from "../../../components/home/SlideText";
 

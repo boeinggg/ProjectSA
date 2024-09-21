@@ -3,7 +3,8 @@ import Home from "./pages/User/Home";
 // ---------------------User-------------------------
 import Login from "./pages/User/Login";
 import Register from "./pages/User/Register";
-import Package from "./pages/User/Payment";
+import Package from "./pages/User/Package";
+import Payment from "./pages/User/Payment";
 // ---------------------ADMIN------------------------
 import Dashboard from "./pages/Admin/Dashboard";
 import Class from "./pages/Admin/Class";
@@ -19,8 +20,9 @@ const App: React.FC = (): JSX.Element => {
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/package" element={<Package />}></Route>
                 <Route path="/register" element={<Register />} />
+                <Route path="/package" element={<Package />} />
+                <Route path="/payment" element={<Payment />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/class" element={<Class />} />
                 <Route path="/class/create" element={<ClassCreate />} />

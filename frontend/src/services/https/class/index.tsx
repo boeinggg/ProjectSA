@@ -68,4 +68,5 @@ async function DeleteClassByID(id: number | undefined) {
     return await fetchData(`${apiUrl}/classes/${id}`, requestOptions);
 }
 
+
 export { GetClasses, GetClassById, CreateClass, UpdateClass, DeleteClassByID };

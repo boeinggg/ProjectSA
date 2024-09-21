@@ -18,6 +18,17 @@ const fetchData = async (url: string, options: RequestInit) => {
     }
 };
 
+async function GetGenders() {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    return await fetchData(`${apiUrl}/genders`, requestOptions);
+}
+
 async function GetMembers() {
     const requestOptions = {
         method: "GET",
@@ -69,4 +80,5 @@ async function DeleteMemberByID(id: number | undefined) {
     return await fetchData(`${apiUrl}/members/${id}`, requestOptions);
 }
 
-export { GetMembers, GetMemberById, CreateMember, UpdateMember, DeleteMemberByID };
+
+export { GetGenders, GetMembers, GetMemberById, CreateMember, UpdateMember, DeleteMemberByID };

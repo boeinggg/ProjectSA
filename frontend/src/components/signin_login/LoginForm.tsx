@@ -18,7 +18,7 @@ const LoginForm: React.FC = () => {
         try {
             const result = await SignIn(signInData);
 
-            // ตรวจสอบบทบาทจาก API ที่ส่งกลับมา
+            // Check if result contains the expected fields
             if (result && result.role && result.token) {
                 localStorage.setItem("token", result.token);
                 localStorage.setItem("id", result.id);
@@ -30,6 +30,9 @@ const LoginForm: React.FC = () => {
                 } else if (result.role === "member") {
                     setTimeout(() => navigate("/home"), 600); // Delay navigation
                 }
+            } else {
+                // Handle case where result doesn't have the expected fields
+                toast.error("Unexpected response from server. Please try again.");
             }
         } catch (error) {
             console.error("Failed to sign in:", error);
@@ -83,7 +86,7 @@ const LoginForm: React.FC = () => {
 
                         <div>
                             <button
-                                className="w-4/5 mb-4 text-2xl mt-3 rounded-full bg-lime-400 text-black hover:bg-black hover:text-white py-2 transition-colors duration-300 xl:w-3/4"
+                                className="w-4/5 mb-4 text-2xl mt-3 rounded-full font-bold bg-lime-400 text-black hover:bg-black hover:text-white py-2 transition-colors duration-300 xl:w-3/4"
                                 type="button"
                                 onClick={handleSignIn}
                             >

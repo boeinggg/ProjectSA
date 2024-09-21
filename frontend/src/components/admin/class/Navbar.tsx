@@ -58,7 +58,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
 
     return (
         <div className="bg-black w-full">
-            <div className="navbar bg-black h-[76px] flex items-center border-b-4 border-green1">
+            <div className="navbar bg-black h-[76px] flex items-center border-b-4 border-white">
                 <h1 className="text-xl text-green1 ml-14">{title}</h1>
                 <div className="flex items-center ml-auto mr-14 relative">
                     <div

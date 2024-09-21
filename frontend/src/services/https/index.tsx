@@ -11,10 +11,16 @@ const fetchData = async (url: string, options: RequestInit) => {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        return response.status === 204 ? true : await response.json();
+        // Return `true` for a `204 No Content` response, otherwise return JSON
+        if (response.status === 204) {
+            return true;
+        }
+
+        // Handle other cases where the response contains JSON
+        return await response.json();
     } catch (error) {
         console.error("Fetch error:", error);
-        return false;
+        throw error; // Rethrow the error
     }
 };
 
@@ -25,9 +31,46 @@ async function SignIn(data: SignInInterface) {
         body: JSON.stringify(data),
     };
 
-    return await fetchData(`${apiUrl}/login`, requestOptions);
+    try {
+        const result = await fetchData(`${apiUrl}/login`, requestOptions);
+        return result;
+    } catch (error) {
+        console.error("SignIn failed:", error);
+        throw error; // Rethrow the error to handle it in the calling function
+    }
 }
 
-export {
-    SignIn,
-};
+async function CountMembers() {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    return await fetchData(`${apiUrl}/members/count`, requestOptions);
+}
+
+async function CountClasses() {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    return await fetchData(`${apiUrl}/classes/count`, requestOptions);
+}
+
+async function CountStaffs() {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    return await fetchData(`${apiUrl}/staffs/count`, requestOptions);
+}
+
+export { SignIn, CountMembers, CountClasses, CountStaffs };

@@ -125,3 +125,27 @@ func UpdateAdmin(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
 }
+
+func CountStaffs(c *gin.Context) {
+    var adminCount int64
+    var trainerCount int64
+
+    db := config.DB()
+
+    // Count admins
+    if err := db.Model(&entity.Admin{}).Count(&adminCount).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    // Count trainers
+    if err := db.Model(&entity.Trainer{}).Count(&trainerCount).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    // Total count
+    totalCount := adminCount + trainerCount
+    c.JSON(http.StatusOK, gin.H{"count": totalCount})
+}
+

@@ -20,7 +20,7 @@ interface ClassType {
 
 interface Trainer {
     ID: number;
-    Name: string;
+    Name: string
 }
 
 interface Class {
@@ -168,7 +168,7 @@ const Class: React.FC = () => {
                             <button className="bg-rose-500 text-white px-4 py-2 rounded-md mr-2" onClick={confirmDelete}>
                                 Delete
                             </button>
-                            <button className="bg-gray-500 text-white px-4 py-2 rounded-md" onClick={() => setIsModalOpen(false)}>
+                            <button className="bg-gray2 text-white px-4 py-2 rounded-md" onClick={() => setIsModalOpen(false)}>
                                 Cancel
                             </button>
                         </div>

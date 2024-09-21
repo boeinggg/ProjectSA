@@ -5,6 +5,7 @@ import (
 
 	"backend/config"
 	"backend/controller"
+
 	// "backend/middlewares"
 
 	"github.com/gin-gonic/gin"
@@ -36,6 +37,7 @@ func main() {
 		router.POST("/members", controller.CreateMember)
 		router.PATCH("/members", controller.UpdateMember)
 		router.DELETE("/members/:id", controller.DeleteMember)
+		router.GET("/members/count", controller.CountMembers)
 		// Gender Routes
 		router.GET("/genders", controller.ListGenders)
 		// Class Routes
@@ -44,6 +46,7 @@ func main() {
 		router.POST("/classes", controller.CreateClass)
 		router.PATCH("/classes", controller.UpdateClass)
 		router.DELETE("/classes/:id", controller.DeleteClass)
+		router.GET("/classes/count", controller.CountClasses)
 		// ClassType Routes
 		router.GET("/classtypes", controller.ListClassTypes)
 		router.GET("/classtype/:id", controller.GetClassType)
@@ -62,6 +65,10 @@ func main() {
 		router.POST("/admins", controller.CreateAdmin)
 		router.PATCH("/admins", controller.UpdateAdmin)
 		router.DELETE("/admins/:id", controller.DeleteAdmin)
+
+		//Count Staff
+		router.GET("/staffs/count", controller.CountStaffs)
+
 		// Booking Routes
 		router.GET("/bookings", controller.ListBookings)
 		router.GET("/booking/:id", controller.GetBooking)

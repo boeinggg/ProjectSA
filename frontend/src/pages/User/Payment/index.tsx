@@ -1,81 +1,36 @@
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import Card from "../../../components/payment/Card";
-import myImage from "../../../assets/1.avif";
-import { useNavigate } from "react-router-dom";
-import "../../../App.css";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import PaymentMethod from "../../../components/payment/PaymentMethod";
+import PackageDetails from "../../../components/payment/PaymentDetails";
+import PaymentSuccess from "../../../components/payment/PaymentSuccess";
+import myImage from "../../../assets/bg.jpg";
 
-interface PackageData {
-    name: string;
-    price: string;
-    description: string;
-    duration: string;
-    aosDelay: string;
-}
+const Payment: React.FC = () => {
+    const location = useLocation();
+    const selectedPackage = location.state?.package;
 
-const packageData: PackageData[] = [
-    {
-        name: "Daily",
-        price: "59THB/d.",
-        description: "Members can access all services within the fitness center for a full day.",
-        duration: "1 day",
-        aosDelay: "100",
-    },
-    {
-        name: "Monthly",
-        price: "499THB/m.",
-        description: "Members can access all services within the fitness center an unlimited number of times for one month.",
-        duration: "1 month",
-        aosDelay: "300",
-    },
-    {
-        name: "Yearly",
-        price: "1999THB/yr.",
-        description: "Members can access all services within the fitness center an unlimited number of times for a full year.",
-        duration: "1 year",
-        aosDelay: "500",
-    },
-];
+    const [paymentMethod, setPaymentMethod] = useState<string>("Credit Card");
+    const [paymentComplete, setPaymentComplete] = useState<boolean>(false);
 
-const Package: React.FC = () => {
-    const navigate = useNavigate();
-
-    // Initialize AOS for animations
-    useEffect(() => {
-        AOS.init({ duration: 2000 });
-    }, []);
-
-    const handlePurchase = (pkg: PackageData) => {
-        navigate("/payment", { state: { packageData: pkg } });
+    const handlePayment = () => {
+        setPaymentComplete(true); // Update the state to show the success message
     };
 
-    return (
-        <div className="bg-gray-900 min-h-screen flex flex-col items-center text-white">
-            {/* Header Section */}
-            <div className="bg-cover bg-center h-96 w-full flex items-center justify-center" style={{ backgroundImage: `url(${myImage})` }}>
-                {/* Add content here if needed */}
-            </div>
-            <div className="text-center text-6xl font-bold mt-8">Our Fitness Pass</div>
+    if (paymentComplete) {
+        return <PaymentSuccess />;
+    }
 
-            {/* Packages Section */}
-            <div className="container mx-auto py-12 px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                    {packageData.map((pkg) => (
-                        <Card
-                            key={pkg.name}
-                            name={pkg.name}
-                            price={pkg.price}
-                            description={pkg.description}
-                            duration={pkg.duration}
-                            aosDelay={pkg.aosDelay}
-                            onPurchase={() => handlePurchase(pkg)} // Add click handler
-                        />
-                    ))}
-                </div>
+    return (
+        <div className="bg-cover min-h-screen flex items-center justify-center text-white" style={{ backgroundImage: `url(${myImage})` }}>
+            <div className="flex flex-col md:flex-row h-[600px] bg-gray-900 p-12 rounded-2xl shadow-xl w-full md:w-3/4">
+                {/* Payment Method Section */}
+                <PaymentMethod selectedMethod={paymentMethod} onMethodChange={setPaymentMethod} />
+
+                {/* Package Details Section */}
+                <PackageDetails packageInfo={selectedPackage} onPaymentClick={handlePayment} />
             </div>
         </div>
     );
 };
 
-export default Package;
+export default Payment;

@@ -75,7 +75,7 @@ func GetMember(c *gin.Context) {
 // GET /members
 func ListMembers(c *gin.Context) {
 
-	var members []entity.Admin
+	var members []entity.Member
 
 	db := config.DB()
 	results := db.Preload("Gender").Find(&members)
@@ -124,4 +124,14 @@ func UpdateMember(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
+}
+
+func CountMembers(c *gin.Context) {
+	var count int64
+	db := config.DB()
+	if err := db.Model(&entity.Member{}).Count(&count).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"count": count})
 }
