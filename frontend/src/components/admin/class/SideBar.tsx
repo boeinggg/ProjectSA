@@ -66,7 +66,7 @@ const SideBar: React.FC = () => {
                         <Link
                             to={menu.link || "#"}
                             className={`text-white font-sans font-medium text-xl flex items-center gap-x-4 cursor-pointer p-4 mt-2 ml-1 hover:bg-green5 hover:text-green3 hover:bg-opacity-10 hover:rounded-full w-max ${
-                                isActive(menu.link) ? " bg-green5 bg-opacity-10 rounded-full w-max text-lime-400" : ""
+                                isActive(menu.link) ? " bg-green5 bg-opacity-10 rounded-full w-max text-green2" : ""
                             }`}
                             onClick={() => menu.submenu && toggleSubMenu(menu.title)} // toggle เฉพาะเมนูหลักที่มีเมนูย่อย
                         >

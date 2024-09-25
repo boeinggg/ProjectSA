@@ -44,8 +44,8 @@ func SetupDatabase() {
 	db.FirstOrCreate(&GenderMale, &entity.Gender{Name: "Male"})
 	db.FirstOrCreate(&GenderFemale, &entity.Gender{Name: "Female"})
 
-	TrainerJib := entity.Trainer{Name: "Jib"}
-	TrainerAdam := entity.Trainer{Name: "Adam"}
+	TrainerJib := entity.Trainer{Name: "Jib", TrainerPic: "aa"}
+	TrainerAdam := entity.Trainer{Name: "Adam", TrainerPic: "aa"}
 
 	db.FirstOrCreate(&TrainerJib, &entity.Trainer{Name: "Jib"})
 	db.FirstOrCreate(&TrainerAdam, &entity.Trainer{Name: "Adam"})

@@ -1,5 +1,7 @@
 import React from "react";
 import { ClassTypesInterface } from "../../../../interfaces/IClassType";
+import { FiEdit } from "react-icons/fi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface ClassTypeTableProps {
     classTypes: ClassTypesInterface[];
@@ -23,18 +25,18 @@ const ClassTypeTable: React.FC<ClassTypeTableProps> = ({ classTypes, onEdit, onD
                         <td className="border-b p-2 text-center">{index + 1}</td>
                         <td className="border-b p-2">{classType.Name}</td>
                         <td className="border-b p-2">
-                            <button
-                                className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
-                                onClick={() => onEdit(classType)}
-                            >
-                                Edit
+                            <div className="space-x-6 flex items-center">
+                            <button onClick={() => onEdit(classType)}>
+                                <FiEdit className="text-green2 w-6 h-auto" />
                             </button>
                             <button
-                                className="bg-rose-500 text-white px-4 py-2 rounded hover:bg-rose-600"
+                                
                                 onClick={() => onDelete(classType.ID!, classType.Name ?? "Unnamed Class Type")}
                             >
-                                Delete
+                                <RiDeleteBin6Line className=" text-rose-600 w-7 h-auto "/>
                             </button>
+                            </div>
+                            
                         </td>
                     </tr>
                 ))}

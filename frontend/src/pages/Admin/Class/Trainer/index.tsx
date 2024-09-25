@@ -112,70 +112,67 @@ const Trainer: React.FC = () => {
                         </div>
                     </div>
                     <div className="text-white bg-black flex justify-center">
-                        <div className="w-[700px] h-[490px] items-center bg-gray4 rounded-xl mt-6 overflow-auto scrollable-div">
-                            <table className="w-full border-collapse">
-                                <thead>
-                                    <tr className="text-left">
-                                        <th className="border-b p-2 w-1/6"></th>
-                                        <th className="border-b p-2 w-1/2">Name</th>
-                                        <th className="border-b p-2 w-1/3">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {trainers.map((trainer, index) => (
-                                        <tr key={trainer.ID}>
-                                            <td className="border-b p-2 text-center">{index + 1}</td>
-                                            <td className="border-b p-2">{trainer.Name}</td>
-                                            <td className="border-b p-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                            {trainers.map((trainer) => {
+                                const base64String = trainer.TrainerPic || "";
+                                const imageSrc = base64String.startsWith("data:image/")
+                                    ? base64String
+                                    : `data:image/jpeg;base64,${base64String}`;
+                                return (
+                                    <div className="py-10 px-10 max-w-sm mx-auto bg-gray4 rounded-xl shadow-lg flex flex-col items-center space-y-2 sm:py-6">
+                                        <img className="h-32 w-32 rounded-full object-cover" src={imageSrc} alt={trainer.Name} />
+                                        <div className="flex flex-col items-center text-center space-y-2">
+                                            <p className="text-lg text-white font-semibold">{trainer.Name}</p>
+                                            <div className="flex space-x-2">
                                                 <button
-                                                    className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
+                                                    className="px-4 py-2 text-sm text-green5 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-green5 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
                                                     onClick={() => openEditModal(trainer)}
                                                 >
                                                     Edit
                                                 </button>
                                                 <button
-                                                    className="bg-rose-500 text-white px-4 py-2 rounded hover:bg-rose-600"
+                                                    className="px-4 py-2 text-sm text-rose-600 font-semibold rounded-full border border-rose-200 hover:text-white hover:bg-rose-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-600 focus:ring-offset-2"
                                                     onClick={() => openDeleteModal(trainer.ID!, trainer.Name ?? "Unnamed Trainer")}
                                                 >
                                                     Delete
                                                 </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            <Toaster />
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
+                        <Toaster />
                     </div>
                 </div>
+            </div>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                title="Create Trainer"
+                type="create"
+                fetchTrainers={fetchTrainers}
+                onSave={handleSave}
+            />
+            {isEditModalOpen && trainerToEdit && (
                 <Modal
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    title="Create Trainer"
-                    type="create"
+                    isOpen={isEditModalOpen}
+                    onClose={closeEditModal}
+                    title="Edit Trainer"
+                    type="edit"
+                    trainer={trainerToEdit}
                     fetchTrainers={fetchTrainers}
                     onSave={handleSave}
                 />
-                {isEditModalOpen && trainerToEdit && (
-                    <Modal
-                        isOpen={isEditModalOpen}
-                        onClose={closeEditModal}
-                        title="Edit Trainer"
-                        type="edit"
-                        trainer={trainerToEdit}
-                        fetchTrainers={fetchTrainers}
-                        onSave={handleSave}
-                    />
-                )}
-                <Modal
-                    isOpen={isDeleteModalOpen}
-                    onClose={closeDeleteModal}
-                    onDelete={handleDelete}
-                    title="Confirm Delete"
-                    type="delete"
-                    trainerName={trainerNameToDelete}
-                />
-            </div>
+            )}
+            <Modal
+                isOpen={isDeleteModalOpen}
+                onClose={closeDeleteModal}
+                onDelete={handleDelete}
+                title="Confirm Delete"
+                type="delete"
+                trainerName={trainerNameToDelete}
+            />
         </div>
     );
 };

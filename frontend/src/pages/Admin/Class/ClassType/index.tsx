@@ -84,13 +84,13 @@ const ClassType: React.FC = () => {
     }, []);
 
     return (
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
             <SideBar />
             <div className="bg-black w-full">
                 <Navbar title="Class" />
                 <div className="navbar bg-forth h-[76px] flex items-center">
-                    <h1 className="text-3xl text-secondary ml-14 mt-2">Class Type</h1>
-                    <div className="ml-auto mr-14 mt-2">
+                    <h1 className="text-3xl text-secondary ml-4 md:ml-14 mt-2">Class Type</h1>
+                    <div className="ml-auto mr-4 md:mr-14 mt-2">
                         <button
                             className="text-white font-sans font-medium text-m px-5 py-3 flex items-center bg-gray3 rounded-full hover:bg-green5 shadow-md hover:shadow-lg"
                             onClick={createModal.openModal}
@@ -101,7 +101,7 @@ const ClassType: React.FC = () => {
                     </div>
                 </div>
                 <div className="text-white bg-black overflow-auto h-[520px] scrollable-div flex justify-center">
-                    <div className="w-[700px] h-[490px] bg-gray4 rounded-xl mt-6">
+                    <div className="max-w-full w-full md:w-[700px] h-[490px] bg-gray4 rounded-xl mt-6 p-4">
                         <ClassTypeTable classTypes={classtypes} onEdit={openEditModal} onDelete={openDeleteModal} />
                         <Toaster />
                     </div>
