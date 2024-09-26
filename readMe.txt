@@ -10,3 +10,5 @@ npm install dayjs
 npm install browser-image-compression
 npm install @tailwindcss/aspect-ratio
 npm install --save-dev @types/aos
+npm install swiper
+

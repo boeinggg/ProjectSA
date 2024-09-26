@@ -7,7 +7,13 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({ placeholder, value, onChange }) => (
-    <input type="text" placeholder={placeholder} value={value} onChange={onChange} className="border rounded-xl w-[300px] h-[40px] mb-4 " />
+    <input
+        type="text"
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className="border rounded-xl w-full h-[40px] mb-4 px-2 text-base" // Using w-full for full width, added padding
+    />
 );
 
 export default Input;

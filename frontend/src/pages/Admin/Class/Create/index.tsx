@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../../../../components/admin/class/Navbar';
-import SideBar from '../../../../components/admin/class/SideBar';
-import Dropzone from '../../../../components/admin/class/Dropzone';
-import ClassForm from '../../../../components/admin/class/CreateClass/ClassForm';
-import ConfirmModal from '../../../../components/admin/class/CreateClass/ConfirmModal';
-import { FaRegSave } from 'react-icons/fa';
-import { GetTrainers } from '../../../../services/https/class/trainer';
-import { GetClassTypes } from '../../../../services/https/class/classType';
-import { CreateClass } from '../../../../services/https/class';
-import { TrainersInterface } from '../../../../interfaces/ITrainer';
-import { ClassTypesInterface } from '../../../../interfaces/IClassType';
-import { ClassesInterface } from '../../../../interfaces/IClass';
-import { useNavigate } from 'react-router-dom';
-import imageCompression from 'browser-image-compression';
-import toast, { Toaster } from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import Navbar from "../../../../components/admin/class/Navbar";
+import SideBar from "../../../../components/admin/class/SideBar";
+import Dropzone from "../../../../components/admin/class/Dropzone";
+import ClassForm from "../../../../components/admin/class/CreateClass/ClassForm";
+import ConfirmModal from "../../../../components/admin/class/CreateClass/ConfirmModal";
+import { FaRegSave } from "react-icons/fa";
+import { GetTrainers } from "../../../../services/https/class/trainer";
+import { GetClassTypes } from "../../../../services/https/class/classType";
+import { CreateClass } from "../../../../services/https/class";
+import { TrainersInterface } from "../../../../interfaces/ITrainer";
+import { ClassTypesInterface } from "../../../../interfaces/IClassType";
+import { ClassesInterface } from "../../../../interfaces/IClass";
+import { useNavigate } from "react-router-dom";
+import imageCompression from "browser-image-compression";
+import toast, { Toaster } from "react-hot-toast";
 
 const ClassCreate: React.FC = () => {
-    const [className, setClassName] = useState<string>('');
+    const [className, setClassName] = useState<string>("");
     const [selectedTrainer, setSelectedTrainer] = useState<number | undefined>(1);
     const [selectedType, setSelectedType] = useState<number | undefined>(1);
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
-    const [description, setDescription] = useState<string>('');
+    const [description, setDescription] = useState<string>("");
     const [classPic, setClassPic] = useState<File | null>(null);
-    const [classPicURL, setClassPicURL] = useState<string>('');
+    const [classPicURL, setClassPicURL] = useState<string>("");
     const [particNum, setParticNum] = useState<number | undefined>(undefined);
     const [trainers, setTrainers] = useState<TrainersInterface[]>([]);
     const [classTypes, setClassTypes] = useState<ClassTypesInterface[]>([]);
@@ -248,4 +248,3 @@ const ClassCreate: React.FC = () => {
 };
 
 export default ClassCreate;
-

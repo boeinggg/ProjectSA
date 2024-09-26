@@ -194,8 +194,9 @@ const EditClass: React.FC = () => {
                 </div>
                 <div className="flex flex-wrap justify-center">
                     <div className="bg-gray4 mt-5 w-[1000px] h-[480px] rounded-3xl overflow-auto scrollable-div flex justify-center">
-                        <div className="flex">
-                            <Dropzone onDrop={handleDrop} classPicURL={classPicURL} />
+                        <div className="flex  ">
+                            <div className="pt-10"><Dropzone onDrop={handleDrop} classPicURL={classPicURL} /></div>
+                            
                             <Form
                                 className={className}
                                 setClassName={setClassName}
