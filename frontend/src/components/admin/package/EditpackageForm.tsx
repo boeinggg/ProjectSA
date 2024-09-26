@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { CreatePackage } from "../../../services/https/package"; // Assuming packageApi is the file with API methods
 import { PackageInterface } from "../../../interfaces/IPackage";
-import toast, {Toaster} from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom"; // เพิ่มการนำเข้า
-
 
 const CreatePackageForm: React.FC = () => {
     const [formData, setFormData] = useState<PackageInterface>({
@@ -119,25 +118,24 @@ const CreatePackageForm: React.FC = () => {
                         </select>
                     </div>
                     <div className="flex justify-end space-x-4 mt-8">
-                    {/* <button
+                        {/* <button
                         type="button"
                         className="bg-red hover:bg-rose-500 text-black font-semibold py-4 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-300 ease-in-out text-[20px]"
                     >
                         Delete
                     </button> */}
-                    <button
-                        type="submit"
-                        className="bg-green3 hover:bg-green5 text-black font-semibold py-4 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-green5 transition-all duration-300 ease-in-out text-[20px]"
-                    >
-                        Save
-                    </button>
-                </div>
+                        <button
+                            type="submit"
+                            className="bg-green3 hover:bg-green5 text-black font-semibold py-4 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-green5 transition-all duration-300 ease-in-out text-[20px]"
+                        >
+                            Save
+                        </button>
+                    </div>
                 </div>
 
                 {/* Buttons */}
-                
             </form>
-            <Toaster/>
+            <Toaster />
         </div>
     );
 };

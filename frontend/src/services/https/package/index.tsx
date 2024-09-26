@@ -18,7 +18,6 @@ const fetchData = async (url: string, options: RequestInit) => {
     }
 };
 
-
 async function GetPackages() {
     const requestOptions = {
         method: "GET",
@@ -67,8 +66,17 @@ async function DeletePackageByID(id: number | undefined) {
         method: "DELETE",
     };
 
-    return await fetchData(`${apiUrl}/members/${id}`, requestOptions);
+    return await fetchData(`${apiUrl}/packages/${id}`, requestOptions);
 }
 
+async function DeletePackageByName(name: string | undefined) {
+    if (name === undefined) return false;
 
-export { GetPackages, GetPackageById, CreatePackage, UpdatePackage, DeletePackageByID };
+    const requestOptions = {
+        method: "DELETE",
+    };
+
+    return await fetchData(`${apiUrl}/packages/${name}`, requestOptions);
+}
+
+export { GetPackages, GetPackageById, CreatePackage, UpdatePackage, DeletePackageByID,DeletePackageByName };

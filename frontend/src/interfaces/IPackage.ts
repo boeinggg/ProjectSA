@@ -1,7 +1,7 @@
 export interface PackageInterface {
-    PackageID?: number;
+    ID?: number;
     PackageName?: string;
     Description?: string;
-    Price?: string;
+    Price?: string | number;
     Duration_days?: string;
 }
