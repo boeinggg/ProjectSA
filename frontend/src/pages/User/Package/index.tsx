@@ -1,78 +1,67 @@
-import React, { useEffect } from "react";
-import AOS from "aos";
+import React, { useEffect, useState } from "react";
+// import AOS from "aos";
 import "aos/dist/aos.css";
 import Card from "../../../components/payment/Card";
 import myImage from "../../../assets/1.jpg";
 import { useNavigate } from "react-router-dom";
 import "../../../App.css";
-
-interface PackageData {
-    name: string;
-    price: string;
-    description: string;
-    duration: string;
-    aosDelay: string;
-}
-
-const packageData: PackageData[] = [
-    {
-        name: "Daily",
-        price: "59THB/d.",
-        description: "Members can access all services within the fitness center for a full day.",
-        duration: "1 day",
-        aosDelay: "100",
-    },
-    {
-        name: "Monthly",
-        price: "499THB/m.",
-        description: "Members can access all services within the fitness center an unlimited number of times for one month.",
-        duration: "1 month",
-        aosDelay: "300",
-    },
-    {
-        name: "Yearly",
-        price: "1999THB/yr.",
-        description: "Members can access all services within the fitness center an unlimited number of times for a full year.",
-        duration: "1 year",
-        aosDelay: "500",
-    },
-];
+import { PackageInterface } from "../../../interfaces/IPackage";
+import { GetPackages } from "../../../services/https/package";
 
 const Package: React.FC = () => {
+    const [packages, setPackages] = useState<PackageInterface[]>([]);
     const navigate = useNavigate();
 
-    // Initialize AOS for animations
-    useEffect(() => {
-        AOS.init({ duration: 2000 });
-    }, []);
-
-    const handlePurchase = (pkg: PackageData) => {
-        navigate("/payment", { state: { packageData: pkg } });
+    const fetchPackages = async () => {
+        try {
+            const res = await GetPackages();
+            console.log("Packages data:", res); // Debugging log
+            if (res) {
+                setPackages(res);
+            }
+        } catch (error) {
+            console.error("Failed to fetch packages.", error);
+        }
     };
+
+    const handlePurchase = (pkg: PackageInterface) => {
+        navigate("/payment", { state: { package: pkg } });
+    };
+
+    useEffect(() => {
+        fetchPackages();
+    }, []); // Dependency array added to prevent infinite loop
 
     return (
         <div className="bg-gray-900 min-h-screen flex flex-col items-center text-white">
             {/* Header Section */}
-            <div className="bg-cover bg-center h-96 w-full flex items-center justify-center" style={{ backgroundImage: `url(${myImage})` }}>
+            <div className="bg-cover bg-center h-60 w-full flex items-center justify-center" style={{ backgroundImage: `url(${myImage})` }}>
                 {/* Add content here if needed */}
             </div>
-            <div className="text-center text-5xl font-bold mt-8">Our Fitness Pass</div>
+            <div className="text-center text-4xl font-bold mt-8">Our Fitness Pass</div>
 
             {/* Packages Section */}
             <div className="container mx-auto py-12 px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                    {packageData.map((pkg) => (
-                        <Card
-                            key={pkg.name}
-                            name={pkg.name}
-                            price={pkg.price}
-                            description={pkg.description}
-                            duration={pkg.duration}
-                            aosDelay={pkg.aosDelay}
-                            onPurchase={() => handlePurchase(pkg)} // Add click handler
-                        />
-                    ))}
-                </div>
+                {packages.length === 0 ? (
+                    <p className="text-center text-xl">No packages available.</p>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 z-50">
+                        {packages.map((pkg, index) => {
+                            console.log("Package data:", pkg); // Debugging each package
+                            return (
+                                <Card
+                                    key={pkg.PackageID || index}
+                                    name={pkg.PackageName || "No Name"}
+                                    price={pkg.Price ? pkg.Price.toString() : "No Price"}
+                                    description={pkg.Description || "No Description"}
+                                    duration={pkg.Duration_days || "No Duration"}
+                                    // aosDelay={(index * 100).toString()}
+                                    onPurchase={() => handlePurchase(pkg)}
+                                />
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </div>
     );

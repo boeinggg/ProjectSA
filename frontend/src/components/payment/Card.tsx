@@ -6,13 +6,13 @@ const Card: React.FC<{
     price: string;
     duration: string;
     description: string;
-    aosDelay: string;
+    // aosDelay: string;
     onPurchase: () => void; // Add onPurchase prop
-}> = ({ name, price, duration, description, aosDelay, onPurchase }) => {
+}> = ({ name, price, duration, description, onPurchase }) => {
     return (
         <div
-            data-aos="fade-up"
-            data-aos-delay={aosDelay}
+            // data-aos="fade-up"
+            // data-aos-delay={aosDelay}
             className="bg-gray-800 p-12 rounded-2xl shadow-lg text-center w-full flex flex-col justify-between z-10" // Updated z-index
         >
             <h2 className="text-2xl font-semibold mb-4">{name}</h2>

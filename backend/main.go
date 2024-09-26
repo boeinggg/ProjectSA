@@ -75,6 +75,13 @@ func main() {
 		router.POST("/bookings", controller.CreateBooking)
 		router.PATCH("/bookings", controller.UpdateBooking)
 		router.DELETE("/bookings/:id", controller.DeleteBooking)
+
+		// Package Routes
+		router.GET("/packages", controller.ListPackage)
+		router.GET("/package/:id", controller.GetPackage)
+		router.POST("/packages", controller.CreatePackage)
+		router.PATCH("/packages", controller.UpdatePackages)
+		router.DELETE("/packages/:id", controller.DeletePackage)
 		}
 		
 	}

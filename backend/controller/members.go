@@ -13,7 +13,7 @@ import (
 func CreateMember(c *gin.Context) {
 	var member entity.Member
 
-	// bind เข้าตัวแปร user
+	// bind เข้าตัวแปร member
 	if err := c.ShouldBindJSON(&member); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -35,6 +35,7 @@ func SetupDatabase() {
 		&entity.Trainer{},
 		&entity.Class{},
 		&entity.Booking{},
+		&entity.Package{},
 
 	)
 
@@ -91,6 +92,14 @@ func SetupDatabase() {
 		AdminID: 1,
 	}
 
+	Package := entity.Package{
+		PackageName:  "Daily",
+		Description:  "Members can access all services within the fitness center for a full day",
+		Price:     "59THB/d.",
+		Duration_days: "1 day" ,
+		
+	}
+
 
 	db.FirstOrCreate(&Admin, entity.Admin{Email: "PsAdmin@gmail.com"})
 	db.FirstOrCreate(&Member, entity.Member{Email: "Ps@gmail.com"})
@@ -99,4 +108,7 @@ func SetupDatabase() {
 	db.FirstOrCreate(Class, &entity.Class{
         ClassName: "Hatha Yoga",
     })
+
+	db.FirstOrCreate(&Package, entity.Package{PackageName: "Daily_Membership"})
+
 }

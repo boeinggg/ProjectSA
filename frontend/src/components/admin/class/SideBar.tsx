@@ -8,6 +8,7 @@ import { LuUsers } from "react-icons/lu";
 import { FaRegClock, FaMoneyBills } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import { FaRegDotCircle } from "react-icons/fa";
+import { RiBillLine } from "react-icons/ri";
 
 interface MenuItem {
     title: string;
@@ -34,6 +35,7 @@ const SideBar: React.FC = () => {
             ],
         },
         { title: "Equipments", icon: <MdFitnessCenter /> },
+        { title: "Package", icon :<RiBillLine />, link : "/admin/package"},
         { title: "Payments", icon: <FaMoneyBills /> },
     ];
 

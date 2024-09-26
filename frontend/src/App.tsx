@@ -12,6 +12,7 @@ import ClassCreate from "./pages/Admin/Class/Create";
 import EditClass from "./pages/Admin/Class/Edit";
 import ClassType from "./pages/Admin/Class/ClassType";
 import Trainer from "./pages/Admin/Class/Trainer";
+import PackageAd from "./pages/Admin/Packages";
 
 const App: React.FC = (): JSX.Element => {
     return (
@@ -29,6 +30,7 @@ const App: React.FC = (): JSX.Element => {
                 <Route path="/class/edit/:classID" element={<EditClass />} />
                 <Route path="/class/classType" element={<ClassType />} />
                 <Route path="/class/trainer" element={<Trainer />} />
+                <Route path="/admin/package" element={<PackageAd />} />
             </Routes>
         </Router>
     );
