@@ -1,10 +1,14 @@
-import React, { useState } from "react";
-import { CreatePackage } from "../../../services/https/package"; // Assuming packageApi is the file with API methods
+import React, { useState, useEffect } from "react";
+import { CreatePackage, UpdatePackage } from "../../../services/https/package"; // Assuming you also have an update API
 import { PackageInterface } from "../../../interfaces/IPackage";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom"; // เพิ่มการนำเข้า
+import { useNavigate } from "react-router-dom";
 
-const CreatePackageForm: React.FC = () => {
+interface EditPackageFormProps {
+    packageData?: PackageInterface; // Optional prop for pre-filling the form when editing
+}
+
+const EditPackageForm: React.FC<EditPackageFormProps> = ({ packageData }) => {
     const [formData, setFormData] = useState<PackageInterface>({
         PackageName: "",
         Description: "",
@@ -13,6 +17,17 @@ const CreatePackageForm: React.FC = () => {
     });
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (packageData) {
+            setFormData({
+                PackageName: packageData.PackageName || "",
+                Description: packageData.Description || "",
+                Price: packageData.Price || "",
+                Duration_days: packageData.Duration_days || "",
+            });
+        }
+    }, [packageData]);
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -27,28 +42,26 @@ const CreatePackageForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const packageData: PackageInterface = {
+        const packageDataToSubmit: PackageInterface = {
             PackageName: formData.PackageName,
             Description: formData.Description,
-            Price: formData.Price ? formData.Price.toString() : "", // Ensure Price is a string
+            Price: formData.Price ? formData.Price.toString() : "",
             Duration_days: formData.Duration_days,
         };
 
-        const success = await CreatePackage(packageData);
+        try {
+            if (packageData) {
+                await UpdatePackage({ ...packageDataToSubmit, ID: packageData.ID });
+                toast.success("Package updated successfully!");
+            } else {
+                await CreatePackage(packageDataToSubmit);
+                toast.success("Package created successfully!");
+            }
 
-        if (success) {
-            toast.success("Package created successfully!");
-            // Reset form
-            setFormData({
-                PackageName: "",
-                Description: "",
-                Price: "", // Reset to empty string
-                Duration_days: "",
-            });
-
-            navigate("/admin/package");
-        } else {
-            alert("Failed to create package.");
+            navigate("/admin/package"); // Navigate back to the package list after successful operation
+        } catch (error) {
+            toast.error("Failed to submit package.");
+            console.error(error);
         }
     };
 
@@ -117,13 +130,8 @@ const CreatePackageForm: React.FC = () => {
                             <option value="1 Year">1 Year</option>
                         </select>
                     </div>
+
                     <div className="flex justify-end space-x-4 mt-8">
-                        {/* <button
-                        type="button"
-                        className="bg-red hover:bg-rose-500 text-black font-semibold py-4 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-300 ease-in-out text-[20px]"
-                    >
-                        Delete
-                    </button> */}
                         <button
                             type="submit"
                             className="bg-green3 hover:bg-green5 text-black font-semibold py-4 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-green5 transition-all duration-300 ease-in-out text-[20px]"
@@ -132,12 +140,10 @@ const CreatePackageForm: React.FC = () => {
                         </button>
                     </div>
                 </div>
-
-                {/* Buttons */}
             </form>
             <Toaster />
         </div>
     );
 };
 
-export default CreatePackageForm;
+export default EditPackageForm;

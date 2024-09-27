@@ -50,7 +50,7 @@ const Package: React.FC = () => {
                             console.log("Package data:", pkg); // Debugging each package
                             return (
                                 <Card
-                                    key={pkg.PackageID || index}
+                                    key={pkg.ID || index}
                                     name={pkg.PackageName || "No Name"}
                                     price={pkg.Price ? pkg.Price.toString() : "No Price"}
                                     description={pkg.Description || "No Description"}
