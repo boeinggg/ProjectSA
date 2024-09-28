@@ -7,7 +7,7 @@ import "gorm.io/gorm"
 type Payment struct {
 	gorm.Model 
 	PaymentMethodName string //วิธีการชำระ
-	Amount            int//จำนวนเงิน
+	Amount            string//จำนวนเงิน
 	
 
 	// PackageID ทำหน้าที่เป็น FK

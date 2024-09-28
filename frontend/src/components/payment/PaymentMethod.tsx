@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface PaymentMethodProps {
     selectedMethod: string;
     onMethodChange: (method: string) => void;
+    setPromptPayImage: (image: string | null) => void; // Accept the setter as a prop
+    promptPayImage: string | null; // Accept the uploaded image as a prop
+    setExpiryDate: (date: Date | null) => void; // Accept setter for expiry date
+    expiryDate: Date | null;
 }
 
-const PaymentMethod: React.FC<PaymentMethodProps> = ({ selectedMethod, onMethodChange }) => {
-    const [expiryDate, setExpiryDate] = useState<Date | null>(null);
-    const [promptPayImage, setPromptPayImage] = useState<string | ArrayBuffer | null>(null);
-
+const PaymentMethod: React.FC<PaymentMethodProps> = ({
+    selectedMethod,
+    onMethodChange,
+    setPromptPayImage,
+    promptPayImage,
+    setExpiryDate,
+    expiryDate,
+}) => {
     // QR Code URL
     const promptPayQRCodeURL = "https://png.pngtree.com/png-clipart/20220729/original/pngtree-qr-code-png-image_8438558.png";
 
@@ -19,11 +27,17 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ selectedMethod, onMethodC
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setPromptPayImage(reader.result);
+                setPromptPayImage(reader.result as string); // Store as Base64 string using the passed setter
             };
             reader.readAsDataURL(file);
+        } else {
+            setPromptPayImage(null); // Clear image if no file is selected
         }
     };
+
+    useEffect(() => {
+        console.log(expiryDate);
+    }, [expiryDate]);
 
     return (
         <div className="bg-gray-100 p-8 rounded-xl shadow-lg flex-1 mb-6 md:mb-0 md:mr-6">
@@ -78,13 +92,12 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ selectedMethod, onMethodC
                                 Expiry Date
                             </label>
                             <DatePicker
-                                selected={expiryDate}
+                                selected={expiryDate} // Use the expiry date from props
                                 onChange={(date: Date | null) => setExpiryDate(date)}
                                 dateFormat="MM/yy"
                                 placeholderText="Select Month/Year"
                                 showPopperArrow={false}
                                 className="w-full p-2 rounded-2xl border border-gray-300 text-lg text-black"
-                                // These props enable month/year picker
                                 showMonthYearPicker
                             />
                         </div>
@@ -120,12 +133,12 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ selectedMethod, onMethodC
                                 <img
                                     id="preview_img"
                                     className="h-16 w-16 object-cover rounded-full"
-                                    src={promptPayImage as string}
+                                    src={promptPayImage || ""} // Use promptPayImage as source
                                     alt="Preview"
                                 />
                             </div>
                             <label className="block">
-                                <span className="sr-only">Choose profile photo</span>
+                                <span className="sr-only">Choose proof of payment</span>
                                 <input
                                     type="file"
                                     onChange={handleFileChange}

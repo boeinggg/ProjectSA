@@ -10,10 +10,11 @@ import (
 )
 
 // POST /creditcard
+// POST /creditcard
 func CreateCreditCard(c *gin.Context) {
 	var creditcard entity.CreditCard
 
-	// bind เข้าตัวแปร creditcard
+	// Bind JSON into creditcard variable
 	if err := c.ShouldBindJSON(&creditcard); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -21,26 +22,26 @@ func CreateCreditCard(c *gin.Context) {
 
 	db := config.DB()
 
-
-	// ค้นหา Payment ด้วย id
+	// Search for Payment by ID
 	var payment entity.Payment
-	db.First(&payment, creditcard.PaymentID)
-	if creditcard.ID == 0 {
+	result := db.First(&payment, creditcard.PaymentID)
+	if result.Error != nil {
+		// Payment not found
 		c.JSON(http.StatusNotFound, gin.H{"error": "payment not found"})
 		return
 	}
 
-	// สร้าง creditcard
+	// Create CreditCard entity
 	cc := entity.CreditCard{
 		NameOnCard: creditcard.NameOnCard,
 		CardNumber: creditcard.CardNumber,
-        ExpiryDate: creditcard.ExpiryDate,
-        CVV:        creditcard.CVV,
-        PaymentID:  creditcard.PaymentID,
-        Payment:    payment,  //โยงความสัมพันธ์กับ Entity Payment
+		ExpiryDate: creditcard.ExpiryDate,
+		CVV:        creditcard.CVV,
+		PaymentID:  creditcard.PaymentID,
+		Payment:    payment, // Link to Payment entity
 	}
 
-	// บันทึก
+	// Save CreditCard
 	if err := db.Create(&cc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -48,6 +49,7 @@ func CreateCreditCard(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": cc})
 }
+
 
 // GET /creditcard/:id
 func GetCreditCard(c *gin.Context) {
