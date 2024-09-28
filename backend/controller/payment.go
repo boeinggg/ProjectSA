@@ -128,4 +128,28 @@ func UpdatePayment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
 }
 
+// GET /payments/member/:memberId
+// GET /payments/member/:id
+func GetPaymentsByMemberID(c *gin.Context) {
+	memberID := c.Param("id")
+	var payments []entity.Payment
+
+	db := config.DB()
+	results := db.Preload("Member").Preload("Package").Where("member_id = ?", memberID).Find(&payments)
+
+	if results.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
+		return
+	}
+
+	if len(payments) == 0 {
+		c.JSON(http.StatusNoContent, gin.H{"message": "No payments found for this member"})
+		return
+	}
+
+	c.JSON(http.StatusOK, payments)
+}
+
+
+
 

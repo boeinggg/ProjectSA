@@ -11,32 +11,28 @@ interface ClassTypeTableProps {
 
 const ClassTypeTable: React.FC<ClassTypeTableProps> = ({ classTypes, onEdit, onDelete }) => {
     return (
-        <table className="w-full border-collapse">
+        <table className="w-full border-collapse rounded-lg overflow-hidden shadow-lg">
             <thead>
-                <tr className="text-left">
+                <tr className="text-left bg-green3 text-black">
                     <th className="border-b p-2 w-1/6"></th>
                     <th className="border-b p-2 w-1/2">Name</th>
                     <th className="border-b p-2 w-1/3">Actions</th>
                 </tr>
-            </thead>
+            </thead> 
             <tbody>
                 {classTypes.map((classType, index) => (
-                    <tr key={classType.ID}>
+                    <tr key={classType.ID} className={index % 2 === 0 ? "bg-gray5" : "bg-gray4"}>
                         <td className="border-b p-2 text-center">{index + 1}</td>
                         <td className="border-b p-2">{classType.Name}</td>
                         <td className="border-b p-2">
                             <div className="space-x-6 flex items-center">
-                            <button onClick={() => onEdit(classType)}>
-                                <FiEdit className="text-green2 w-6 h-auto" />
-                            </button>
-                            <button
-                                
-                                onClick={() => onDelete(classType.ID!, classType.Name ?? "Unnamed Class Type")}
-                            >
-                                <RiDeleteBin6Line className=" text-rose-600 w-7 h-auto "/>
-                            </button>
+                                <button onClick={() => onEdit(classType)}>
+                                    <FiEdit className="text-green2 w-6 h-auto" />
+                                </button>
+                                <button onClick={() => onDelete(classType.ID!, classType.Name ?? "Unnamed Class Type")}>
+                                    <RiDeleteBin6Line className="text-rose-600 w-7 h-auto" />
+                                </button>
                             </div>
-                            
                         </td>
                     </tr>
                 ))}

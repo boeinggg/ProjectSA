@@ -24,7 +24,15 @@ const SideBar: React.FC = () => {
 
     const Menus: MenuItem[] = [
         { title: "Dashboard", icon: <MdOutlineSpaceDashboard />, link: "/dashboard" },
-        { title: "Members", icon: <LuUsers /> },
+        {
+            title: "Member",
+            icon: <LuUsers />,
+            // link: "/ListMember",
+            submenu: [
+                { title: "Member", icon: <LuUsers />, link: "/ListMember" },
+                { title: "Admin", icon: <LuUsers />, link: "/ListAdmin" },
+            ],
+        },
         {
             title: "Class",
             icon: <FaRegClock />,
@@ -35,8 +43,8 @@ const SideBar: React.FC = () => {
             ],
         },
         { title: "Equipments", icon: <MdFitnessCenter /> },
-        { title: "Package", icon :<RiBillLine />, link : "/admin/package"},
-        { title: "Payments", icon: <FaMoneyBills /> },
+        { title: "Package", icon: <RiBillLine />, link: "/admin/package" },
+        { title: "Payments", icon: <FaMoneyBills />, link: "/admin/payment" },
     ];
 
     const isActive = (menuLink: string | undefined): boolean => {

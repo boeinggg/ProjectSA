@@ -39,6 +39,8 @@ async function GetPackageById(id: number | undefined) {
     return await fetchData(`${apiUrl}/package/${id}`, requestOptions);
 }
 
+
+
 async function CreatePackage(data: PackageInterface) {
     const requestOptions = {
         method: "POST",

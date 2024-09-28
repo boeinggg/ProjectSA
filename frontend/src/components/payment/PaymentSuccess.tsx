@@ -17,7 +17,7 @@ const PaymentSuccess: React.FC = () => {
                 </p>
                 <button
                     className="bg-lime-400 text-white font-semibold py-4 px-8 text-xl rounded-2xl hover:bg-gray-200 transition duration-300 ease-in-out"
-                    onClick={() => navigate("/home")}
+                    onClick={() => navigate("/classBooking")}
                 >
                     Done
                 </button>

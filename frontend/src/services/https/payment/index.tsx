@@ -91,4 +91,14 @@ async function DeletePaymentByID(id: number | undefined) {
     return await fetchData(`${apiUrl}/payments/${id}`, requestOptions);
 }
 
-export { GetMembers, GetPackages, GetPayments, GetPaymentById, CreatePayment, UpdatePayment, DeletePaymentByID };
+async function GetPaymentsByMemberID(id: number | undefined) {
+    if (id === undefined) return false;
+
+    const requestOptions = {
+        method: "GET",
+    };
+
+    return await fetchData(`${apiUrl}/payments/member/${id}`, requestOptions);
+}
+
+export { GetMembers, GetPackages, GetPayments, GetPaymentById, CreatePayment, UpdatePayment, DeletePaymentByID, GetPaymentsByMemberID };

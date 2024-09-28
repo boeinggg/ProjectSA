@@ -73,6 +73,17 @@ async function CountStaffs() {
     return await fetchData(`${apiUrl}/staffs/count`, requestOptions);
 }
 
+async function CountPackages() {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    return await fetchData(`${apiUrl}/packages/count`, requestOptions);
+}
 
 
-export { SignIn, CountMembers, CountClasses, CountStaffs };
+
+export { SignIn, CountMembers, CountClasses, CountStaffs, CountPackages };

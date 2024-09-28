@@ -133,10 +133,10 @@ func DeleteClass(c *gin.Context) {
 func UpdateClass(c *gin.Context) {
 	var class entity.Class
 
-	UserID := c.Param("id")
+	ClassID := c.Param("id")
 
 	db := config.DB()
-	result := db.First(&class, UserID)
+	result := db.First(&class, ClassID)
 	if result.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "id not found"})
 		return

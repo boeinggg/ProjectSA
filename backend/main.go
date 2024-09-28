@@ -84,6 +84,7 @@ func main() {
 		router.POST("/packages", controller.CreatePackage)
 		router.PATCH("/packages", controller.UpdatePackages)
 		router.DELETE("/packages/:id", controller.DeletePackage)
+		router.GET("/packages/count", controller.CountPackages)
 
 		// Payment Routes
 		router.GET("/payments", controller.ListPayments)
@@ -91,6 +92,7 @@ func main() {
 		router.POST("/payments", controller.CreatePayment)
 		router.PATCH("/payments", controller.UpdatePayment)
 		router.DELETE("/payments/:id", controller.DeletePayments)
+		router.GET("/payments/member/:id", controller.GetPaymentsByMemberID)  
 
 		// Promtpay Routes
 		router.GET("/promtpays", controller.ListPromptpays)

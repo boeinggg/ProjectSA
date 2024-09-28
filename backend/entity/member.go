@@ -16,7 +16,9 @@ type Member struct {
 
 	Username string 	
 
-	Password  string    
+	Password  string 
+	
+	PhoneNumber string 
 
 	GenderID  uint     
 	Gender    Gender  `gorm:"foreignKey:GenderID"`

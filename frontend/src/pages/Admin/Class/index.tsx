@@ -20,7 +20,7 @@ interface ClassType {
 
 interface Trainer {
     ID: number;
-    Name: string
+    Name: string;
 }
 
 interface Class {
@@ -71,7 +71,7 @@ const Class: React.FC = () => {
                     try {
                         await DeleteClassByID(classToDelete);
                         resolve("Class deleted");
-                        setClasses(classes.filter((cls) => cls.ID !== classToDelete));
+                        fetchClasses();
                     } catch (error) {
                         reject(error);
                     }

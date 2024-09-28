@@ -110,3 +110,13 @@ func UpdatePackages(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
 }
+
+func CountPackages(c *gin.Context) {
+	var count int64
+	db := config.DB()
+	if err := db.Model(&entity.Package{}).Count(&count).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"count": count})
+}

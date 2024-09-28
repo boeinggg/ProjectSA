@@ -79,6 +79,7 @@ func SetupDatabase() {
 		FirstName: "Premsinee",
 		LastName:  "Paoin",
 		GenderID: 2,
+		PhoneNumber: "0639937541",
     }
 
 	StartDate, _ := time.Parse("2006-01-02 15:04:05", "2024-08-31 14:30:00")
@@ -98,7 +99,7 @@ func SetupDatabase() {
 	Package := entity.Package{
 		PackageName:  "Daily",
 		Description:  "Members can access all services within the fitness center for a full day",
-		Price:     "59THB/d.",
+		Price:     "59",
 		Duration_days: "1 day" ,
 		
 	}

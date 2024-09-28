@@ -18,6 +18,17 @@ const fetchData = async (url: string, options: RequestInit) => {
     }
 };
 
+async function GetGenders() {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    return await fetchData(`${apiUrl}/genders`, requestOptions);
+}
+
 async function GetAdmins() {
     const requestOptions = {
         method: "GET",
@@ -81,4 +92,4 @@ async function CheckSubscription(memberId: number | undefined) {
     return await fetchData(`${apiUrl}/members/${memberId}/subscribe`, requestOptions);
 }
 
-export { GetAdmins, GetAdminById, CreateAdmin, UpdateAdmin, DeleteAdminByID, CheckSubscription };
+export { GetGenders, GetAdmins, GetAdminById, CreateAdmin, UpdateAdmin, DeleteAdminByID, CheckSubscription };

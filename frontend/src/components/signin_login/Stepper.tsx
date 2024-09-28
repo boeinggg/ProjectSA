@@ -11,10 +11,10 @@ const Stepper: React.FC = () => {
         FirstName: "",
         LastName: "",
         GenderID: "",
-        PhoneNumber: "",
         Email: "",
         Username: "",
         Password: "",
+        PhoneNumber: "",
     });
 
     const steps = ["Personal Info", "Contact", "Account Info"];
@@ -42,7 +42,7 @@ const Stepper: React.FC = () => {
     };
 
     const handleSubmit = async () => {
-        if (!formData.FirstName || !formData.LastName || !formData.Email || !formData.Password) {
+        if (!formData.FirstName || !formData.LastName || !formData.Email || !formData.Password || !formData.PhoneNumber) {
             toast.error("Please fill all required fields");
             return;
         }
@@ -61,7 +61,7 @@ const Stepper: React.FC = () => {
                 navigate("/home");
             }, 1000);
         } else {
-            toast.error("Failed to create member.");
+            toast.error("Username already exists.");
         }
     };
 

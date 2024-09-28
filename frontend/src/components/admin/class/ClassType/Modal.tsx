@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../Input";
 import toast from "react-hot-toast";
 import { ClassTypesInterface } from "../../../../interfaces/IClassType";
@@ -29,6 +29,8 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
     const [name, setName] = useState(classType?.Name || "");
 
+    // Update the modal input value when the classType prop changes
+
     const handleSubmit = async () => {
         if (type === "create") {
             if (!name) {
@@ -58,7 +60,7 @@ const Modal: React.FC<ModalProps> = ({
                 setName("");
                 onClose();
                 if (fetchClassTypes) {
-                    fetchClassTypes(); // Call fetchClassTypes if it is defined
+                    fetchClassTypes();
                 }
             } catch (error) {
                 console.error("Error creating class type:", error);
@@ -91,10 +93,10 @@ const Modal: React.FC<ModalProps> = ({
                 setName("");
                 onClose();
                 if (fetchClassTypes) {
-                    fetchClassTypes(); // Call fetchClassTypes if it is defined
+                    fetchClassTypes();
                 }
             } catch (error) {
-                console.error("Error update class type:", error);
+                console.error("Error updating class type:", error);
             }
         } else if (type === "delete" && onDelete) {
             try {
@@ -105,6 +107,12 @@ const Modal: React.FC<ModalProps> = ({
             }
         }
     };
+
+    useEffect(() => {
+        if (classType) {
+            setName(classType.Name || ""); // Provide a fallback empty string if classType.Name is undefined
+        }
+    }, [classType]);
 
     if (!isOpen) return null;
 
