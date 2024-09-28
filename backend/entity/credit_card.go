@@ -15,5 +15,5 @@ type CreditCard struct {
 
 	// Payment ทำหน้าที่เป็น FK
 	PaymentID uint
-	Payment   Payment `gorm:"foreignKey:payment_id"`
+	Payment   Payment `gorm:"foreignKey:PaymentID"`
 }

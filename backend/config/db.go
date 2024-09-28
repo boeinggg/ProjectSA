@@ -36,6 +36,9 @@ func SetupDatabase() {
 		&entity.Class{},
 		&entity.Booking{},
 		&entity.Package{},
+		&entity.Payment{},
+		&entity.PromptPay{},
+		&entity.CreditCard{},
 
 	)
 

@@ -54,7 +54,7 @@ const Card: React.FC<{
         <div className="relative border-2 border-green3 text-white p-12 rounded-2xl shadow-lg text-center w-full flex flex-col justify-between">
             <HiDotsHorizontal className="absolute top-4 right-4 text-green3 cursor-pointer h-7 w-auto" onClick={toggleDropdown} />
             {isDropdownOpen && (
-                <div className="absolute right-2 mt-1 w-24 bg-gray4 bg-opacity-95 border border-green3 rounded-lg shadow-lg z-10">
+                <div className="absolute right-2  w-24 bg-gray4 bg-opacity-95 border border-green3 rounded-lg shadow-lg z-10">
                     <ul className="text-white p-2">
                         <li className="p-2 hover:bg-green5 cursor-pointer" onClick={handleEditClick}>
                             Edit

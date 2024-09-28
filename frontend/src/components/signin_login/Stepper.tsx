@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { CreateMember, GetGenders } from "../../services/https/member";
-import { MembersInterface } from "../../interfaces/IMember"; // Import MembersInterface
+import { MembersInterface } from "../../interfaces/IMember";
 import { GendersInterface } from "../../interfaces/IGender";
 import { useNavigate } from "react-router-dom";
 
@@ -18,21 +18,18 @@ const Stepper: React.FC = () => {
     });
 
     const steps = ["Personal Info", "Contact", "Account Info"];
-
-    const [genders, setGenders] = useState<GendersInterface[]>([]); // State for gender data
+    const [genders, setGenders] = useState<GendersInterface[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch gender data when the component mounts
         const fetchGenders = async () => {
-            const genderData = await GetGenders(); // Call the API to get genders
+            const genderData = await GetGenders();
             if (genderData) {
-                setGenders(genderData); // Store gender data in state
+                setGenders(genderData);
             } else {
                 toast.error("Failed to fetch genders.");
             }
         };
-
         fetchGenders();
     }, []);
 
@@ -52,14 +49,17 @@ const Stepper: React.FC = () => {
 
         const memberData: MembersInterface = {
             ...formData,
-            GenderID: parseInt(formData.GenderID), // Convert string to number
+            GenderID: parseInt(formData.GenderID),
         };
 
         const response = await CreateMember(memberData);
 
         if (response) {
             toast.success("Member created successfully!");
-            navigate("/package");
+
+            setTimeout(() => {
+                navigate("/home");
+            }, 1000);
         } else {
             toast.error("Failed to create member.");
         }
@@ -194,6 +194,7 @@ const Stepper: React.FC = () => {
 
     return (
         <div className="w-full max-w-md mx-auto ">
+            {/* Place Toaster at the root level */}
             <Toaster />
             <div className="flex justify-between mb-10">
                 {steps.map((step, index) => (

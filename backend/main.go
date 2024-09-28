@@ -38,6 +38,7 @@ func main() {
 		router.PATCH("/members", controller.UpdateMember)
 		router.DELETE("/members/:id", controller.DeleteMember)
 		router.GET("/members/count", controller.CountMembers)
+		router.POST("/members/subscribe", controller.CheckSubscription)
 		// Gender Routes
 		router.GET("/genders", controller.ListGenders)
 		// Class Routes
@@ -82,6 +83,29 @@ func main() {
 		router.POST("/packages", controller.CreatePackage)
 		router.PATCH("/packages", controller.UpdatePackages)
 		router.DELETE("/packages/:id", controller.DeletePackage)
+
+		// Payment Routes
+		router.GET("/payments", controller.ListPayments)
+		router.GET("/payment/:id", controller.GetPayment)
+		router.POST("/payments", controller.CreatePayment)
+		router.PATCH("/payments", controller.UpdatePayment)
+		router.DELETE("/payments/:id", controller.DeletePayments)
+
+		// Promtpay Routes
+		router.GET("/promtpays", controller.ListPromptpays)
+		router.GET("/promtpay/:id", controller.GetPromptpay)
+		router.POST("/promtpays", controller.CreatePromtpay)
+		router.PATCH("/promtpays", controller.UpdatePromptpay)
+		router.DELETE("/promtpays/:id", controller.DeletePromptpay)
+
+		// CreditCard Routes
+		router.GET("/creditcards", controller.ListCreditCards)
+		router.GET("/creditcard/:id", controller.GetCreditCard)
+		router.POST("/creditcards", controller.CreateCreditCard)
+		router.PATCH("/creditcards", controller.UpdateCreditCard)
+		router.DELETE("/creditcards/:id", controller.DeleteCreditCard)
+
+
 		}
 		
 	}

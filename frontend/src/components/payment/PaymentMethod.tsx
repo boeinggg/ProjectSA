@@ -9,15 +9,27 @@ interface PaymentMethodProps {
 
 const PaymentMethod: React.FC<PaymentMethodProps> = ({ selectedMethod, onMethodChange }) => {
     const [expiryDate, setExpiryDate] = useState<Date | null>(null);
-    const [email, setEmail] = useState<string>("");
-    const [firstName, setFirstName] = useState<string>("");
-    const [lastName, setLastName] = useState<string>("");
+    const [promptPayImage, setPromptPayImage] = useState<string | ArrayBuffer | null>(null);
+
+    // QR Code URL
+    const promptPayQRCodeURL = "https://png.pngtree.com/png-clipart/20220729/original/pngtree-qr-code-png-image_8438558.png";
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPromptPayImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <div className="bg-gray-100 p-8 rounded-xl shadow-lg flex-1 mb-6 md:mb-0 md:mr-6">
-            <h2 className="text-3xl font-semibold mb-6 text-gray-900">Select Payment Method</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-gray-900">Select Payment Method</h2>
 
-            <div className="flex justify-start mb-4 space-x-4">
+            <div className="flex justify-start mb-6 space-x-4">
                 <button
                     className={`py-4 px-6 rounded-md shadow-md focus:outline-none ${
                         selectedMethod === "Credit Card" ? "bg-lime-400 text-white" : "bg-gray-200"
@@ -28,35 +40,35 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ selectedMethod, onMethodC
                 </button>
                 <button
                     className={`py-4 px-6 rounded-md shadow-md focus:outline-none ${
-                        selectedMethod === "PayPal" ? "bg-lime-400 text-white" : "bg-gray-200"
+                        selectedMethod === "PromptPay" ? "bg-lime-400 text-white" : "bg-gray-200"
                     }`}
-                    onClick={() => onMethodChange("PayPal")}
+                    onClick={() => onMethodChange("PromptPay")}
                 >
-                    PayPal
+                    PromptPay
                 </button>
             </div>
 
             {selectedMethod === "Credit Card" && (
                 <>
-                    <div className="mb-4">
+                    <div className="mb-6">
                         <label className="block text-gray-700 font-semibold mb-3 text-lg" htmlFor="cardHolder">
                             Name on Card
                         </label>
                         <input
                             type="text"
                             id="cardHolder"
-                            className="w-full p-3 rounded-2xl border border-gray-300 text-lg text-black"
+                            className="w-full p-2 rounded-2xl border border-gray-300 text-lg text-black"
                             placeholder="Enter card holder name"
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-6">
                         <label className="block text-gray-700 font-semibold mb-3 text-lg" htmlFor="cardNumber">
                             Card Number
                         </label>
                         <input
                             type="text"
                             id="cardNumber"
-                            className="w-full p-3 rounded-2xl border border-gray-300 text-lg text-black"
+                            className="w-full p-2 rounded-2xl border border-gray-300 text-lg text-black"
                             placeholder="0000 - 0000 - 0000 - 0000"
                         />
                     </div>
@@ -68,9 +80,12 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ selectedMethod, onMethodC
                             <DatePicker
                                 selected={expiryDate}
                                 onChange={(date: Date | null) => setExpiryDate(date)}
-                                dateFormat="dd/MM/yyyy"
-                                placeholderText="Select Date"
-                                className="w-full p-3 rounded-2xl border border-gray-300 text-lg text-black"
+                                dateFormat="MM/yy"
+                                placeholderText="Select Month/Year"
+                                showPopperArrow={false}
+                                className="w-full p-2 rounded-2xl border border-gray-300 text-lg text-black"
+                                // These props enable month/year picker
+                                showMonthYearPicker
                             />
                         </div>
                         <div className="w-1/2 ml-4">
@@ -80,7 +95,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ selectedMethod, onMethodC
                             <input
                                 type="text"
                                 id="cvvCode"
-                                className="w-full p-3 rounded-2xl border border-gray-300 text-lg text-black"
+                                className="w-full p-2 rounded-2xl border border-gray-300 text-lg text-black"
                                 placeholder="CVV"
                             />
                         </div>
@@ -88,47 +103,43 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ selectedMethod, onMethodC
                 </>
             )}
 
-            {selectedMethod === "PayPal" && (
+            {selectedMethod === "PromptPay" && (
                 <>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 font-semibold mb-3 text-lg" htmlFor="emailAddress">
-                            Email Address
-                        </label>
-                        <input
-                            type="email"
-                            id="emailAddress"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full p-3 rounded-2xl border border-gray-300 text-lg text-black"
-                            placeholder="hello@example.com"
-                        />
+                    <div className="mb-6">
+                        <h3 className="block text-gray-700 font-semibold mb-3 text-lg">PromptPay QR Code</h3>
+                        <div className="w-full p-2 rounded-2xl border border-gray-300 flex justify-center items-center">
+                            <img src={promptPayQRCodeURL} alt="PromptPay QR Code" className="w-32 h-auto" />
+                        </div>
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 font-semibold mb-3 text-lg" htmlFor="firstName">
-                            First Name
-                        </label>
-                        <input
-                            type="text"
-                            id="firstName"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            className="w-full p-3 rounded-2xl border border-gray-300 text-lg text-black"
-                            placeholder="Enter your first name"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 font-semibold mb-3 text-lg" htmlFor="lastName">
-                            Last Name
-                        </label>
-                        <input
-                            type="text"
-                            id="lastName"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            className="w-full p-3 rounded-2xl border border-gray-300 text-lg text-black"
-                            placeholder="Enter your last name"
-                        />
-                    </div>
+                    <label className="block text-gray-700 font-semibold mb-3 text-lg" htmlFor="expiryDate">
+                        Upload proof of payment.
+                    </label>
+                    <form>
+                        <div className="flex items-center space-x-6">
+                            <div className="shrink-0">
+                                <img
+                                    id="preview_img"
+                                    className="h-16 w-16 object-cover rounded-full"
+                                    src={promptPayImage as string}
+                                    alt="Preview"
+                                />
+                            </div>
+                            <label className="block">
+                                <span className="sr-only">Choose profile photo</span>
+                                <input
+                                    type="file"
+                                    onChange={handleFileChange}
+                                    className="block w-full text-sm text-slate-500
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded-full file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-violet-50 file:text-violet-700
+                                        hover:file:bg-violet-100
+                                    "
+                                />
+                            </label>
+                        </div>
+                    </form>
                 </>
             )}
         </div>

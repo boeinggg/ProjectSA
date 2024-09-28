@@ -4,6 +4,8 @@ import PaymentMethod from "../../../components/payment/PaymentMethod";
 import PackageDetails from "../../../components/payment/PaymentDetails";
 import PaymentSuccess from "../../../components/payment/PaymentSuccess";
 import myImage from "../../../assets/bg.jpg";
+import { PaymentInterface } from "../../../interfaces/IPayment";
+import { CreatePayment } from "../../../services/https/payment";
 
 const Payment: React.FC = () => {
     const location = useLocation();
@@ -12,8 +14,39 @@ const Payment: React.FC = () => {
     const [paymentMethod, setPaymentMethod] = useState<string>("Credit Card");
     const [paymentComplete, setPaymentComplete] = useState<boolean>(false);
 
-    const handlePayment = () => {
-        setPaymentComplete(true); // Update the state to show the success message
+    // Handle payment
+    const handlePayment = async () => {
+        const memberId = localStorage.getItem("id"); // Retrieve Member ID from localStorage
+
+        if (!memberId || !selectedPackage) {
+            console.error("Missing Member ID or Package information.");
+            alert("Error: Missing member or package information.");
+            return;
+        }
+
+        const paymentData: PaymentInterface = {
+            PaymentMethodName: paymentMethod, // Either 'Credit Card' or 'PromptPay'
+            Amount: Number(selectedPackage.Price), // Convert price to number
+            MemberID: Number(memberId), // Convert Member ID to number
+            PackageID: selectedPackage.ID, // Use Package ID from selected package
+        };
+        console.log("Payment Data:", paymentData);
+
+
+        try {
+            const response = await CreatePayment(paymentData);
+            console.log("Payment Response:", response);
+
+            if (response) {
+                setPaymentComplete(true); // Mark payment as complete if successful
+            } else {
+                console.error("Payment creation failed.");
+                alert("Failed to process payment. Please try again.");
+            }
+        } catch (error) {
+            console.error("Payment failed:", error);
+            alert("Error during payment processing.");
+        }
     };
 
     if (paymentComplete) {
@@ -27,7 +60,11 @@ const Payment: React.FC = () => {
                 <PaymentMethod selectedMethod={paymentMethod} onMethodChange={setPaymentMethod} />
 
                 {/* Package Details Section */}
-                <PackageDetails packageInfo={selectedPackage} onPaymentClick={handlePayment} />
+                {selectedPackage ? (
+                    <PackageDetails packageInfo={selectedPackage} onPaymentClick={handlePayment} />
+                ) : (
+                    <p className="text-white">No package information available.</p>
+                )}
             </div>
         </div>
     );

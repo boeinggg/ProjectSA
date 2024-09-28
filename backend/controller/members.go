@@ -135,3 +135,31 @@ func CountMembers(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"count": count})
 }
+
+func CheckSubscription(c *gin.Context) {
+    var member entity.Member
+    var payment entity.Payment // Assuming you have a Payment struct in the entity package
+
+    MemberID := c.Param("id")
+
+    db := config.DB()
+
+    // First, check if the member exists
+    result := db.First(&member, MemberID)
+    if result.Error != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Member ID not found"})
+        return
+    }
+
+    // Check if there is a payment record for this member
+    paymentResult := db.Where("member_id = ?", MemberID).First(&payment)
+    if paymentResult.Error != nil {
+        c.JSON(http.StatusOK, gin.H{"message": "Not subscribed (No payment found)"})
+        return
+    }
+
+    // If a payment is found, assume the member is subscribed
+    c.JSON(http.StatusOK, gin.H{"message": "Subscribed"})
+}
+
+

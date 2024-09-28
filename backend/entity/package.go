@@ -12,5 +12,5 @@ type Package struct {
 	Duration_days string //ระยะเวลาแต่ละแพ็ตเก็จ
 	
 	// 1 Package สามารถมีชำระเงินหลายครั่ง
-	Payments [] Payment `gorm:"foreignKey:package_id "`
+	Payments [] Payment `gorm:"foreignKey:PackageID"`
 }

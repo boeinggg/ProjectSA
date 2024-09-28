@@ -26,6 +26,7 @@ const Package: React.FC = () => {
 
     const handlePurchase = (pkg: PackageInterface) => {
         navigate("/payment", { state: { package: pkg } });
+        console.log(pkg)
     };
 
     useEffect(() => {

@@ -1,13 +1,7 @@
 import React from "react";
 import myImage from "../../assets/bg.jpg";
-import { useNavigate } from "react-router-dom";
 
 const PaymentSuccess: React.FC = () => {
-    const navigate = useNavigate(); // Initialize useNavigate
-
-    const handleDoneClick = () => {
-        navigate("/home"); // Navigate to home page
-    };
     return (
         <div className="bg-cover min-h-screen flex items-center justify-center text-white" style={{ backgroundImage: `url(${myImage})` }}>
             <div className="bg-gray-900 p-12 rounded-2xl shadow-xl w-full md:w-1/2 text-center text-white">
@@ -18,12 +12,7 @@ const PaymentSuccess: React.FC = () => {
                 <p className="text-2xl mb-8">
                     Thank you for your payment. We will send a receipt to your email. If you have any questions, feel free to contact us.
                 </p>
-                <button
-                    onClick={handleDoneClick}
-                    className="bg-lime-400 text-white font-semibold py-4 px-8 text-xl rounded-2xl hover:bg-gray-200"
-                >
-                    Done
-                </button>
+                <button className="bg-lime-400 text-white font-semibold py-4 px-8 text-xl rounded-2xl hover:bg-gray-200">Done</button>
             </div>
         </div>
     );
