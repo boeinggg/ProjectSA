@@ -42,7 +42,7 @@ const SideBar: React.FC = () => {
                 { title: "Trainer", icon: <FaRegDotCircle />, link: "/class/trainer" },
             ],
         },
-        { title: "Equipments", icon: <MdFitnessCenter /> },
+        { title: "Equipments", icon: <MdFitnessCenter />, link: "/equip" },
         { title: "Package", icon: <RiBillLine />, link: "/admin/package" },
         { title: "Payments", icon: <FaMoneyBills />, link: "/admin/payment" },
     ];

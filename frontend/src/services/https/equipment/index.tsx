@@ -25,7 +25,7 @@ async function GetEquipment() {
         },
     };
 
-    return await fetchData(`${apiUrl}/equips`, requestOptions);
+    return await fetchData(`${apiUrl}/equipments`, requestOptions);
 }
 
 async function GetEquipmentById(id: number | undefined) {
@@ -35,7 +35,7 @@ async function GetEquipmentById(id: number | undefined) {
         method: "GET",
     };
 
-    return await fetchData(`${apiUrl}/equip/${id}`, requestOptions);
+    return await fetchData(`${apiUrl}/equipment/${id}`, requestOptions);
 }
 
 async function CreateEquipment(data: EquipmentsInterface) {
@@ -45,7 +45,7 @@ async function CreateEquipment(data: EquipmentsInterface) {
         body: JSON.stringify(data),
     };
 
-    return await fetchData(`${apiUrl}/equips`, requestOptions);
+    return await fetchData(`${apiUrl}/bookingequipments`, requestOptions);
 }
 
 async function UpdateEquipment(data: EquipmentsInterface) {
@@ -55,7 +55,7 @@ async function UpdateEquipment(data: EquipmentsInterface) {
         body: JSON.stringify(data),
     };
 
-    return await fetchData(`${apiUrl}/equips`, requestOptions);
+    return await fetchData(`${apiUrl}/bookingequipments`, requestOptions);
 }
 
 async function DeleteEquipmentByID(id: number | undefined) {
@@ -65,7 +65,7 @@ async function DeleteEquipmentByID(id: number | undefined) {
         method: "DELETE",
     };
 
-    return await fetchData(`${apiUrl}/equips/${id}`, requestOptions);
+    return await fetchData(`${apiUrl}/bookingequipments/${id}`, requestOptions);
 }
 
 export { GetEquipment, GetEquipmentById, CreateEquipment, UpdateEquipment, DeleteEquipmentByID };

@@ -22,6 +22,7 @@ import CreateAdmin from "./pages/Admin/Member/ListAdmin/Create";
 import ListMember from "./pages/Admin/Member/ListMember";
 import EditMembember from "./pages/Admin/Member/ListMember/Edit";
 import PaymentAd from "./pages/Admin/Payment";
+import Equipment from "./pages/User/Equipment";
 
 const App: React.FC = (): JSX.Element => {
     return (
@@ -34,6 +35,7 @@ const App: React.FC = (): JSX.Element => {
                 <Route path="/package" element={<Package />} />
                 <Route path="/payment" element={<Payment />} />
                 <Route path="/classBooking" element={<ClassBooking />} />
+                <Route path="/equip" element={<Equipment />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/class" element={<Class />} />
                 <Route path="/class/create" element={<ClassCreate />} />

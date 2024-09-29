@@ -25,7 +25,7 @@ const SideBar: React.FC = () => {
             icon: <FaRegClock />,
             link: "/classBooking",
         },
-        { title: "Equipments", icon: <MdFitnessCenter /> },
+        { title: "Equipments", icon: <MdFitnessCenter />,link:"/equip" },
     ];
     const isActive = (menuLink: string | undefined): boolean => {
         return menuLink ? location.pathname === menuLink || location.pathname.startsWith(`${menuLink}/`) : false;
