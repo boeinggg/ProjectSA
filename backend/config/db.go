@@ -39,6 +39,8 @@ func SetupDatabase() {
 		&entity.Payment{},
 		&entity.PromptPay{},
 		&entity.CreditCard{},
+		&entity.Equipment{},
+		&entity.BookingEquipment{},
 
 	)
 
@@ -59,6 +61,12 @@ func SetupDatabase() {
 
 	db.FirstOrCreate(&ClassTypeCardio, &entity.ClassType{Name: "Cardio"})
 	db.FirstOrCreate(&ClassTypeCycling, &entity.ClassType{Name: "Cycling"})
+
+	EquipmentDumbbell := entity.Equipment{EquipmentName: "Dumbell", EquipmentPic: "xx"}
+	EquipmentJumprope := entity.Equipment{EquipmentName: "Jumprope", EquipmentPic: "oo"}
+
+	db.FirstOrCreate(&EquipmentDumbbell, &entity.Equipment{EquipmentName: "Dumbbell"})
+	db.FirstOrCreate(&EquipmentJumprope, &entity.Equipment{EquipmentName: "Jumprope"})
 
 
 	hashedPasswordAd, _ := HashPassword("123456")
@@ -104,6 +112,16 @@ func SetupDatabase() {
 		
 	}
 
+	// StartDate, _ := time.Parse("2006-01-02 15:04:05", "2024-08-31 14:30:00")
+	// EndDate, _ := time.Parse("2006-01-02 15:04:05", "2024-08-31 14:30:00")
+	Equipment := &entity.Equipment{
+		EquipmentName: "Dumbbell",
+		Deets:  "Be strength with dumbbell",
+		StartDate: StartDate,
+		EndDate:  EndDate,
+		EquipmentPic: "xx",
+	}
+
 
 	db.FirstOrCreate(&Admin, entity.Admin{Email: "PsAdmin@gmail.com"})
 	db.FirstOrCreate(&Member, entity.Member{Email: "Ps@gmail.com"})
@@ -111,6 +129,10 @@ func SetupDatabase() {
 
 	db.FirstOrCreate(Class, &entity.Class{
         ClassName: "Hatha Yoga",
+    })
+
+	db.FirstOrCreate(Equipment, &entity.Equipment{
+        EquipmentName: "Dumbbell",
     })
 
 	db.FirstOrCreate(&Package, entity.Package{PackageName: "Daily_Membership"})
